@@ -2,9 +2,9 @@
 something funny or util
 
 # 仓库里的<hr>
-## makeImgWithFnt
+## makeImgWithFnt(.py)
 现有图片像素点颜色用相同颜色文字像素点替换
-## ts_json_schema 
+## ts_json_schema (.ts)
 typescript 转 json_schema<br>
 ***
 # 引用<hr>
