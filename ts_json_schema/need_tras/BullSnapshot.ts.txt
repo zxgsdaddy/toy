@@ -1,0 +1,132 @@
+{
+    '$schema': 'http://json-schema.org/draft-07/schema#',
+    'properties': {
+        'snapshot': {
+            'properties': {
+                'fight': {
+                    'additionalProperties': false,
+                    'patternProperties': {
+                        '^[0-9]+$': {
+                            'properties': {
+                                'cards': {
+                                    'items': {
+                                        'type': 'number'
+                                    },
+                                    'type': 'array'
+                                },
+                                'is_done': {
+                                    'type': 'boolean'
+                                },
+                                'odds': {
+                                    'type': 'number'
+                                },
+                                'type': {
+                                    'type': 'string'
+                                }
+                            },
+                            'required': [
+                                'cards',
+                                'is_done',
+                                'odds',
+                                'type'
+                            ],
+                            'type': 'object'
+                        }
+                    },
+                    'type': 'object'
+                },
+                'raise': {
+                    'additionalProperties': false,
+                    'patternProperties': {
+                        '^[0-9]+$': {
+                            'properties': {
+                                'is_done': {
+                                    'type': 'boolean'
+                                },
+                                'raise_rate': {
+                                    'type': 'number'
+                                }
+                            },
+                            'required': [
+                                'is_done',
+                                'raise_rate'
+                            ],
+                            'type': 'object'
+                        }
+                    },
+                    'type': 'object'
+                },
+                'settle': {
+                    'additionalProperties': false,
+                    'patternProperties': {
+                        '^[0-9]+$': {
+                            'properties': {
+                                'surplus': {
+                                    'type': 'number'
+                                }
+                            },
+                            'required': [
+                                'surplus'
+                            ],
+                            'type': 'object'
+                        }
+                    },
+                    'type': 'object'
+                },
+                'stage': {
+                    'enum': [
+                        'FIGHT',
+                        'NONE',
+                        'RAISE',
+                        'SETTLE'
+                    ],
+                    'type': 'string'
+                },
+                'user_info': {
+                    'additionalProperties': false,
+                    'patternProperties': {
+                        '^[0-9]+$': {
+                            'properties': {
+                                'avatar': {
+                                    'type': 'string'
+                                },
+                                'balance': {
+                                    'type': 'number'
+                                },
+                                'position': {
+                                    'type': 'number'
+                                },
+                                'user_id': {
+                                    'type': 'string'
+                                },
+                                'username': {
+                                    'type': 'string'
+                                }
+                            },
+                            'required': [
+                                'balance',
+                                'position',
+                                'user_id',
+                                'username'
+                            ],
+                            'type': 'object'
+                        }
+                    },
+                    'type': 'object'
+                }
+            },
+            'required': [
+                'fight',
+                'raise',
+                'settle',
+                'stage',
+                'user_info'
+            ],
+            'type': 'object'
+        }
+    },
+    'required': [
+        'snapshot'
+    ],
+    'type': 'object'
+}

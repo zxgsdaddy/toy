@@ -1,0 +1,19 @@
+{
+  "name": "nobug_tsj_ajv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/json-stable-stringify": "^1.0.32",
+    "@types/node": "^13.13.5",
+    "stringify": "^5.2.0",
+    "to-single-quotes": "^3.0.0",
+    "typescript-json-schema": "^0.42.0"
+  }
+}
