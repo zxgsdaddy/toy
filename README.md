@@ -1,5 +1,5 @@
 # toy
-something funny or util
+utils or something funny
 
 # 仓库里的<hr>
 ## makeImgWithFnt(.py)
