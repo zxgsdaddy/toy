@@ -1,15 +1,18 @@
-const exec = require('child_process').execSync;
-let tags = exec('git tag').toString('utf8').trim().split('\n');
-let len = tags.length;
+let exec = require('child_process').execSync,
+    tags = exec('git tag').toString('utf8').trim().split('\n'),
+    len = tags.length;
 tags = tags.slice(len <= 2 ? 0 : len - 2);
 if (tags.length === 2) {
     let commits = exec(`git log --pretty=format:"%s" ${tags[0]}...${tags[1]}`).toString('utf8').trim().split('\n');
-    let msg = '';
+    let msgs = new Set(),
+        msg = '',
+        order = 0;
     commits.forEach(line => {
         if (line.startsWith('[dev]') || line.startsWith('[bugfix]')) {
-            msg += `${line}\n`;
+            msgs.add(line);
         }
     });
+    msgs.forEach(m => msg += `${++order}.${m.replace(/\[dev\]|\[bugfix\]/g, '')}\n`);
     msg = msg.trim();
     try {
         let iconv = require('iconv-lite');
