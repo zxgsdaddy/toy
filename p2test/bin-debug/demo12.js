@@ -71,16 +71,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var Main = (function (_super) {
-    __extends(Main, _super);
-    function Main() {
+var Main2 = (function (_super) {
+    __extends(Main2, _super);
+    function Main2() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         //debug模式，使用图形绘制
         _this.isDebug = false;
         _this.factor = 50;
         return _this;
     }
-    Main.prototype.createChildren = function () {
+    Main2.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
@@ -100,7 +100,7 @@ var Main = (function (_super) {
             console.log(e);
         });
     };
-    Main.prototype.runGame = function () {
+    Main2.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
             var result, userInfo;
             return __generator(this, function (_a) {
@@ -124,7 +124,7 @@ var Main = (function (_super) {
             });
         });
     };
-    Main.prototype.loadResource = function () {
+    Main2.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
             var loadingView, e_1;
             return __generator(this, function (_a) {
@@ -153,7 +153,7 @@ var Main = (function (_super) {
             });
         });
     };
-    Main.prototype.loadTheme = function () {
+    Main2.prototype.loadTheme = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             // load skin theme configuration file, you can manually modify the file. And replace the default skin.
@@ -164,7 +164,7 @@ var Main = (function (_super) {
             }, _this);
         });
     };
-    Main.prototype.updatePosition = function (body) {
+    Main2.prototype.updatePosition = function (body) {
         var disp = body.displays[0];
         disp.x = body.position[0] * this.factor;
         disp.y = body.position[1] * this.factor;
@@ -172,7 +172,7 @@ var Main = (function (_super) {
         //     body.applyImpulse([Math.random() < 0.5 ? -50 : 50, 50], [0, 0]);
         // }
     };
-    Main.prototype.createStone = function (world, point, parent, type) {
+    Main2.prototype.createStone = function (world, point, parent, type) {
         if (type === void 0) { type = 0; }
         var display = new eui.Image('ft_pic_stone_png');
         display.width = display.height = 12;
@@ -193,7 +193,7 @@ var Main = (function (_super) {
         world.addBody(body);
         return body;
     };
-    Main.prototype.createBox = function (world, point, parent) {
+    Main2.prototype.createBox = function (world, point, parent) {
         var box_arr = [];
         for (var i = 0; i < 4; i++) {
             // let display = new eui.Image('ft_pic_glass_cover_png'),
@@ -237,7 +237,7 @@ var Main = (function (_super) {
         }
         return box_arr;
     };
-    Main.prototype.drawConvex = function () {
+    Main2.prototype.drawConvex = function () {
         // let rad_precise: number = 0.15,
         var rad_precise = 0.5, thickness = 10, r = 93, d = 93 * 2, tem_v1 = [], tem_v2 = [], vertices_list = [];
         vertices_list.push([0, 0]);
@@ -279,7 +279,7 @@ var Main = (function (_super) {
         this.debugDraw.drawConvex(shape, body);
         return body;
     };
-    Main.prototype.createDebug = function () {
+    Main2.prototype.createDebug = function () {
         //创建调试试图
         this.debugDraw = new p2DebugDraw(this.world);
         var sprite = new egret.Sprite();
@@ -289,7 +289,7 @@ var Main = (function (_super) {
     /**
      * 创建游戏场景
      */
-    Main.prototype.createGameScene = function () {
+    Main2.prototype.createGameScene = function () {
         var _this = this;
         //创建world
         var world = new p2.World({ gravity: [0, 0] });
@@ -331,7 +331,7 @@ var Main = (function (_super) {
             // egret.log(this.world.bodies[this.world.bodies.length - 1].position);
         }, this);
     };
-    return Main;
+    return Main2;
 }(eui.UILayer));
-__reflect(Main.prototype, "Main");
-//# sourceMappingURL=Main.1.js.map
+__reflect(Main2.prototype, "Main2");
+//# sourceMappingURL=demo12.js.map

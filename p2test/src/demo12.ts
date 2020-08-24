@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-class Main extends eui.UILayer {
+class Main2 extends eui.UILayer {
 
 
     protected createChildren(): void {

@@ -11,8 +11,10 @@
 	],
 	"game": [
 		"bin-debug/AssetAdapter.js",
+		"bin-debug/demo11.js",
+		"bin-debug/demo12.js",
+		"bin-debug/Factory.js",
 		"bin-debug/LoadingUI.js",
-		"bin-debug/Main.1.js",
 		"bin-debug/Main.js",
 		"bin-debug/p2DebugDraw.js",
 		"bin-debug/Platform.js",
