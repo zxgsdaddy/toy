@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="world" width="400" height="300" xmlns:e="http://ns.egret.com/eui">
+	<e:Image source="control_btn_max_round1_png"/>
+</e:Skin>
