@@ -169,8 +169,8 @@ class Main extends eui.UILayer {
     }
 
     private drawConvex() {
-        let rad_precise: number = 0.15,
-            // let rad_precise: number = 0.5,
+        // let rad_precise: number = 0.15,
+        let rad_precise: number = 0.5,
             thickness = 10,
             r = 93,
             d = 93 * 2,
@@ -178,14 +178,14 @@ class Main extends eui.UILayer {
             tem_v2 = [],
             vertices_list: number[][] = [];
         vertices_list.push([0, 0]);
-        // for (let i = 0, len = (Math.PI / 2 / rad_precise) << 0; i < len; i++) {
-        //     let _w = Math.cos(i * rad_precise) * r << 0,
-        //         x = r - _w + thickness,
-        //         y = Math.sin(i * rad_precise) * r << 0;
-        //     tem_v1.push([x, y]);
-        //     tem_v2.push([x + 2 * _w, y]);
-        // }
-        // vertices_list.push(...tem_v1);
+        for (let i = 0, len = (Math.PI / 2 / rad_precise) << 0; i < len; i++) {
+            let _w = Math.cos(i * rad_precise) * r << 0,
+                x = r - _w + thickness,
+                y = Math.sin(i * rad_precise) * r << 0;
+            tem_v1.push([x, y]);
+            tem_v2.push([x + 2 * _w, y]);
+        }
+        vertices_list.push(...tem_v1);
         vertices_list.push([r + thickness, r]);
         vertices_list.push([r + thickness, r + thickness]);
         // vertices_list.push(...tem_v2.reverse());
@@ -200,23 +200,23 @@ class Main extends eui.UILayer {
             allowSleep: false
         });
 
+        vertices_list = [[0, 0], [103, 103], [0, 10]];
         let shape = new p2.Convex({
             vertices: vertices_list
         });
-        // vertices_list = [[0, 0], [10, 0], [10, 10], [0, 10]];
         console.log('vertices_list', vertices_list);
-        body.fromPolygon(vertices_list, {
-            removeCollinearPoints: true,
-            optimalDecomp: true
-        });
+        // body.fromPolygon(vertices_list, {
+        // removeCollinearPoints: true,
+        // optimalDecomp: true
+        // });
         body.type = p2.Body.STATIC;
-        // body.addShape(shape);
+        body.addShape(shape);
         let display = new eui.Image('ft_pic_glass_cover_png');
         this.stage.addChild(display);
         body.displays = [display];
         this.world.addBody(body);
         this.updatePosition(body);
-        // this.debugDraw.drawConvex(shape, body);
+        this.debugDraw.drawConvex(shape, body);
         return body;
     }
 
@@ -271,14 +271,14 @@ class Main extends eui.UILayer {
         //     stones.push(this.createStone(world, egret.Point.create(600 - i * 2, 510 + i * 2), this.stage, 1));
         // });
         this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
-            c.position = [evt.$stageX / this.factor, evt.$stageY / this.factor];
+            c.position = [evt.$stageX, evt.$stageY];
             // this.world.bodies[this.world.bodies.length - 1].position = [evt.$stageX / this.factor, evt.$stageY / this.factor];
         }, this);
         this.addEventListener(egret.Event.ENTER_FRAME, () => {
             this.world.step(60 / 1000);
             this.debugDraw.drawDebug();
             stones.forEach(stone => this.updatePosition(stone));
-            this.updatePosition(c);
+            // this.updatePosition(c);
             // egret.log(c.position);
             // egret.log(this.world.bodies[this.world.bodies.length - 1].position);
         }, this);

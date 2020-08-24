@@ -51,16 +51,16 @@ class p2DebugDraw {
                 var shape: p2.Shape = body.shapes[j];
                 if (shape instanceof p2.Convex) {
                     this.drawConvex(<p2.Convex>shape, body);
-                    // } else if (shape instanceof p2.Circle) {
-                    //     this.drawCircle(<p2.Circle>shape, body);
-                    // } else if (shape instanceof p2.Line) {
-                    //     this.drawLine(<p2.Line>shape, body);
-                    // } else if (shape instanceof p2.Particle) {
-                    //     this.drawParticle(<p2.Particle>shape, body);
-                    // } else if (shape instanceof p2.Plane) {
-                    //     this.drawPlane(<p2.Plane>shape, body);
-                    // } else if (shape instanceof p2.Capsule) {
-                    //     this.drawCapsule(<p2.Capsule>shape, body);
+                } else if (shape instanceof p2.Circle) {
+                    this.drawCircle(<p2.Circle>shape, body);
+                } else if (shape instanceof p2.Line) {
+                    this.drawLine(<p2.Line>shape, body);
+                } else if (shape instanceof p2.Particle) {
+                    this.drawParticle(<p2.Particle>shape, body);
+                } else if (shape instanceof p2.Plane) {
+                    this.drawPlane(<p2.Plane>shape, body);
+                } else if (shape instanceof p2.Capsule) {
+                    this.drawCapsule(<p2.Capsule>shape, body);
                 }
             }
         }
@@ -156,7 +156,7 @@ class p2DebugDraw {
 
         var worldPoint: number[] = new Array();
         b.toWorldFrame(worldPoint, shape.vertices[0]);
-        //g.moveTo(worldPoint[0], worldPoint[1]);
+        g.moveTo(worldPoint[0], worldPoint[1]);
         g.moveTo(b.position[0], b.position[1]);
         g.lineTo(worldPoint[0], worldPoint[1]);
         for (var i: number = 1; i <= l; i++) {
@@ -204,7 +204,6 @@ class p2DebugDraw {
         } else if (b.sleepState == p2.Body.AWAKE) {
             color = this.COLOR_D_WAKE;
         }
-
         return color;
     }
 }

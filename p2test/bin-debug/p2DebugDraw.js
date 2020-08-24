@@ -49,16 +49,21 @@ var p2DebugDraw = (function () {
                 var shape = body.shapes[j];
                 if (shape instanceof p2.Convex) {
                     this.drawConvex(shape, body);
-                    // } else if (shape instanceof p2.Circle) {
-                    //     this.drawCircle(<p2.Circle>shape, body);
-                    // } else if (shape instanceof p2.Line) {
-                    //     this.drawLine(<p2.Line>shape, body);
-                    // } else if (shape instanceof p2.Particle) {
-                    //     this.drawParticle(<p2.Particle>shape, body);
-                    // } else if (shape instanceof p2.Plane) {
-                    //     this.drawPlane(<p2.Plane>shape, body);
-                    // } else if (shape instanceof p2.Capsule) {
-                    //     this.drawCapsule(<p2.Capsule>shape, body);
+                }
+                else if (shape instanceof p2.Circle) {
+                    this.drawCircle(shape, body);
+                }
+                else if (shape instanceof p2.Line) {
+                    this.drawLine(shape, body);
+                }
+                else if (shape instanceof p2.Particle) {
+                    this.drawParticle(shape, body);
+                }
+                else if (shape instanceof p2.Plane) {
+                    this.drawPlane(shape, body);
+                }
+                else if (shape instanceof p2.Capsule) {
+                    this.drawCapsule(shape, body);
                 }
             }
         }
@@ -135,7 +140,7 @@ var p2DebugDraw = (function () {
         g.beginFill(color, 0.5);
         var worldPoint = new Array();
         b.toWorldFrame(worldPoint, shape.vertices[0]);
-        //g.moveTo(worldPoint[0], worldPoint[1]);
+        g.moveTo(worldPoint[0], worldPoint[1]);
         g.moveTo(b.position[0], b.position[1]);
         g.lineTo(worldPoint[0], worldPoint[1]);
         for (var i = 1; i <= l; i++) {
