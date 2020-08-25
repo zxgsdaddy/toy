@@ -107,7 +107,7 @@ class Main extends eui.UILayer {
 		world.sleepMode = p2.World.BODY_SLEEPING;
 		world.useWorldGravityAsFrictionGravity = true;
 		this.world = world;
-		this.createDebug();
+		// this.createDebug();
 		let factory = new Factory(this.world);
 		let rad = Math.PI / 2 / 4,
 			len = 2 * Math.PI / rad;
@@ -117,7 +117,9 @@ class Main extends eui.UILayer {
 		}
 
 		this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
-			this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), this));
+			Array(...Array(10)).forEach((_, i) => {
+				this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), this));
+			});
 		}, this);
 
 		// factory.createBBall(egret.Point.create(300, 500));
@@ -141,19 +143,19 @@ class Main extends eui.UILayer {
 		this.debugDraw.setSprite(sprite);
 	}
 
-	private dis_y = 8;
-	private dis_x = 1;
+	private dis_y = 6 / this.factor;
+	private dis_x = 1 / this.factor;
 	private shake = false;
 	private loop(): void {
 		this.world.step(60 / 1000, 10);
-		this.debugDraw.drawDebug();
+		// this.debugDraw.drawDebug();
 		let box = this.tzds[0],
 			box_position = box.position;
 		if (this.shake) {
-			if ((box_position[1] > 500 && this.dis_y > 0) || (box_position[1] < 300 && this.dis_y < 0)) {
+			if ((box_position[1] > 500 / this.factor && this.dis_y > 0) || (box_position[1] < 300 / this.factor && this.dis_y < 0)) {
 				this.dis_y *= -1;
 			}
-			if ((box_position[0] > 700 && this.dis_x > 0) || (box_position[0] < 600 && this.dis_x < 0)) {
+			if ((box_position[0] > 700 / this.factor && this.dis_x > 0) || (box_position[0] < 600 / this.factor && this.dis_x < 0)) {
 				this.dis_x *= -1;
 			}
 			for (let i = 0, len = this.tzds.length; i < len; i++) {
@@ -163,12 +165,12 @@ class Main extends eui.UILayer {
 			}
 		}
 		let disp: eui.Image = box.displays[0];
-		disp.x = box_position[0];
-		disp.y = box_position[1];
+		disp.x = box_position[0] * this.factor;
+		disp.y = box_position[1] * this.factor;
 		this.stones.forEach(s => {
 			let disp = s.displays[0];
-			disp.x = s.position[0];
-			disp.y = s.position[1];
+			disp.x = s.position[0] * this.factor;
+			disp.y = s.position[1] * this.factor;
 		})
 	}
 

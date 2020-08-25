@@ -14,8 +14,9 @@ var Factory = (function () {
     }
     Factory.prototype.createStone = function (point, parent, type) {
         if (type === void 0) { type = 'circle'; }
-        // let factor = this.factor,
-        var factor = 1, display = new eui.Image('ft_pic_stone_png');
+        var factor = this.factor, 
+        // let factor = 1,
+        display = new eui.Image('ft_pic_stone_png');
         display.x = point.x;
         display.y = point.y;
         display.width = display.height = 12;
@@ -27,8 +28,8 @@ var Factory = (function () {
             allowSleep: false
         });
         body.damping = .1;
-        // let shape = type === 'circle' ? new p2.Circle({ radius: 0.1 }) : new p2.Particle();
-        var shape = type === 'circle' ? new p2.Circle({ radius: 6 }) : new p2.Particle();
+        var shape = type === 'circle' ? new p2.Circle({ radius: 0.1 }) : new p2.Particle();
+        // let shape = type === 'circle' ? new p2.Circle({ radius: 6 }) : new p2.Particle();
         // shape.material = this.stoneM;
         body.addShape(shape);
         body.displays = [display];
@@ -65,9 +66,9 @@ var Factory = (function () {
         return body;
     };
     Factory.prototype.createBox = function (parent, point, rad, index) {
-        var r = 200, _id = (index + 1) * 10, _angle = index * rad;
+        var r = 200 / this.factor, _id = (index + 1) * 10, _angle = index * rad;
         var offset = 1;
-        var _point = [(point.x + 190 * Math.sin(_angle)) << 0, (point.y - 190 * Math.cos(_angle)) << 0];
+        var _point = [(point.x + 185 * Math.sin(_angle)) / this.factor, (point.y - 185 * Math.cos(_angle)) / this.factor];
         var body = new p2.Body({
             mass: 0,
             fixedRotation: true,

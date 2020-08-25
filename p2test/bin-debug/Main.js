@@ -80,8 +80,8 @@ var Main = (function (_super) {
         _this.stones = [];
         _this.pre_stageY = 0;
         _this._i = 0;
-        _this.dis_y = 8;
-        _this.dis_x = 1;
+        _this.dis_y = 6 / _this.factor;
+        _this.dis_x = 1 / _this.factor;
         _this.shake = false;
         return _this;
     }
@@ -179,7 +179,7 @@ var Main = (function (_super) {
         world.sleepMode = p2.World.BODY_SLEEPING;
         world.useWorldGravityAsFrictionGravity = true;
         this.world = world;
-        this.createDebug();
+        // this.createDebug();
         var factory = new Factory(this.world);
         var rad = Math.PI / 2 / 4, len = 2 * Math.PI / rad;
         for (var i = 0; i < len; i++) {
@@ -187,7 +187,9 @@ var Main = (function (_super) {
             this.tzds.push(body);
         }
         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-            _this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), _this));
+            Array.apply(void 0, Array(10)).forEach(function (_, i) {
+                _this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), _this));
+            });
         }, this);
         // factory.createBBall(egret.Point.create(300, 500));
         // this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
@@ -204,14 +206,15 @@ var Main = (function (_super) {
         this.debugDraw.setSprite(sprite);
     };
     Main.prototype.loop = function () {
+        var _this = this;
         this.world.step(60 / 1000, 10);
-        this.debugDraw.drawDebug();
+        // this.debugDraw.drawDebug();
         var box = this.tzds[0], box_position = box.position;
         if (this.shake) {
-            if ((box_position[1] > 500 && this.dis_y > 0) || (box_position[1] < 300 && this.dis_y < 0)) {
+            if ((box_position[1] > 500 / this.factor && this.dis_y > 0) || (box_position[1] < 300 / this.factor && this.dis_y < 0)) {
                 this.dis_y *= -1;
             }
-            if ((box_position[0] > 700 && this.dis_x > 0) || (box_position[0] < 600 && this.dis_x < 0)) {
+            if ((box_position[0] > 700 / this.factor && this.dis_x > 0) || (box_position[0] < 600 / this.factor && this.dis_x < 0)) {
                 this.dis_x *= -1;
             }
             for (var i = 0, len = this.tzds.length; i < len; i++) {
@@ -221,12 +224,12 @@ var Main = (function (_super) {
             }
         }
         var disp = box.displays[0];
-        disp.x = box_position[0];
-        disp.y = box_position[1];
+        disp.x = box_position[0] * this.factor;
+        disp.y = box_position[1] * this.factor;
         this.stones.forEach(function (s) {
             var disp = s.displays[0];
-            disp.x = s.position[0];
-            disp.y = s.position[1];
+            disp.x = s.position[0] * _this.factor;
+            disp.y = s.position[1] * _this.factor;
         });
     };
     return Main;
