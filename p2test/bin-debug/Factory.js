@@ -63,66 +63,13 @@ var Factory = (function () {
         return body;
     };
     Factory.prototype.createTrapezoid = function (point, rad, index) {
-        var r = 120, thickness = 120;
-        var points = {
-            '10': [94, 501],
-            '20': [98, 458],
-            '30': [109, 421],
-            '40': [129, 385],
-            '50': [154, 354],
-            '60': [184, 329],
-            '70': [220, 311],
-            '80': [259, 299],
-            '90': [299, 294],
-            '100': [345, 300],
-            '110': [378, 309],
-            '120': [419, 332],
-            '130': [444, 352],
-            '140': [474, 391],
-            '150': [488, 420],
-            '160': [502, 467],
-            '170': [505, 501],
-            '180': [501, 543],
-            '190': [490, 581],
-            '200': [470, 618],
-            '210': [445, 646],
-            '220': [413, 673],
-            '230': [378, 690],
-            '240': [336, 702],
-            '250': [298, 705],
-            '260': [261, 702],
-            '270': [223, 690],
-            '280': [184, 672],
-            '290': [154, 644],
-            '300': [126, 613],
-            '310': [109, 576],
-            '320': [97, 540]
-        };
+        var r = 200, thickness = 200;
         var _id = (index + 1) * 10;
-        var _point = points[_id];
         var _angle = index * rad;
         //----------------------------------------------
         var offset = 1;
-        var _r = r + thickness / 2;
         var base_point = 500;
-        _point = [base_point + _r * Math.sin(_angle), base_point - _r * Math.cos(_angle)];
-        // if (_angle >= 0 && _angle <= Math.PI / 2) {
-        // 	offset = 1;
-        // 	_point = [base_point + _r * Math.sin(_angle), base_point - _r * Math.cos(_angle)];
-        // } else if (_angle >= Math.PI / 2 && _angle <= Math.PI) {
-        // 	offset = 2;
-        // 	// egret.log(base_point + _r * Math.sin(_angle), base_point - _r * Math.cos(_angle));
-        // 	_point = [base_point + _r * Math.sin(_angle), base_point - _r * Math.cos(_angle)];
-        // } else if (_angle >= Math.PI && _angle <= Math.PI * 3 / 2) {
-        // 	offset = 3;
-        // 	return;
-        // } else {
-        // 	offset = 4;
-        // 	return;
-        // }
-        // let point_x = point.x + 100 * (index % 16);
-        // let point_y = point.y + 200 * offset;
-        // let _point = [point_x, point_y];
+        var _point = [base_point + thickness * Math.sin(_angle), base_point - thickness * Math.cos(_angle)];
         //----------------------------------------------
         //圆环=>梯形
         var out_r = r + thickness, _cal_x = function (r) { return out_r - r * Math.cos(rad); }, _cal_y = function (r) { return r * Math.sin(rad); }, vertices_list = [], out_x = _cal_x(out_r), out_y = _cal_y(out_r), inner_x = _cal_x(r), inner_y = _cal_y(r);
