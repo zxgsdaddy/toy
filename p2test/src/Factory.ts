@@ -38,15 +38,15 @@ class Factory {
 		return body;
 	}
 
-	public createStoneDD(point: egret.Point, type = 'circle') {
+	public createStoneDD(point: egret.Point) {
 		let factor = 1,
 			body = new p2.Body({
 				mass: 2,
 				position: [point.x / factor, point.y / factor],
+				allowSleep: false
 			});
 		body.damping = .1;
-		let shape = type === 'circle' ? new p2.Circle({ radius: 0.1 * this.factor }) : new p2.Particle();
-		// let shape = type === 'circle' ? new p2.Circle({ radius: 90 }) : new p2.Particle();
+		let shape = new p2.Circle({ radius: 0.1 * this.factor });
 		shape.material = this.stoneM;
 		body.addShape(shape);
 		body.type = p2.Body.DYNAMIC;
@@ -69,14 +69,14 @@ class Factory {
 	}
 
 	public createTrapezoid(point: egret.Point, rad: number, index: number) {
-		let r = 178,
+		let r = 200,
 			thickness = 200;
 		let _id = (index + 1) * 10;
 		let _angle = index * rad;
 		//----------------------------------------------
 		let offset = 1;
 		let base_point = 500;
-		let _point = [base_point + thickness * Math.sin(_angle), base_point - thickness * Math.cos(_angle)];
+		let _point = [base_point + 250 * Math.sin(_angle), base_point - 250 * Math.cos(_angle)];
 		//----------------------------------------------
 		//圆环=>梯形
 		let out_r = r + thickness,

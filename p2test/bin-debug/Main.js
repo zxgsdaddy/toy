@@ -180,7 +180,7 @@ var Main = (function (_super) {
         this.createDebug();
         var factory = new Factory(this.world);
         var stones = [];
-        var rad = Math.PI / 2 / 8, len = 2 * Math.PI / rad;
+        var rad = Math.PI / 2 / 4, len = 2 * Math.PI / rad;
         for (var i = 0; i < len; i++) {
             var body = factory.createTrapezoid(egret.Point.create(500, 200), rad, i);
             this.tzds.push(body);
@@ -203,7 +203,7 @@ var Main = (function (_super) {
         this.debugDraw.setSprite(sprite);
     };
     Main.prototype.loop = function () {
-        this.world.step(60 / 1000, 100);
+        this.world.step(60 / 1000, 10);
         this.debugDraw.drawDebug();
         if (this.shake) {
             var base_position = this.tzds[0].position;

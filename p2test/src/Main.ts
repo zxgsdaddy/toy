@@ -110,7 +110,7 @@ class Main extends eui.UILayer {
 		let factory = new Factory(this.world);
 		let stones: p2.Body[] = [];
 
-		let rad = Math.PI / 2 / 8,
+		let rad = Math.PI / 2 / 4,
 			len = 2 * Math.PI / rad;
 		for (let i = 0; i < len; i++) {
 			let body = factory.createTrapezoid(egret.Point.create(500, 200), rad, i);
@@ -145,7 +145,7 @@ class Main extends eui.UILayer {
 	private dis = 20;
 	private shake = false;
 	private loop(): void {
-		this.world.step(60 / 1000, 100);
+		this.world.step(60 / 1000, 10);
 		this.debugDraw.drawDebug();
 		if (this.shake) {
 			let base_position = this.tzds[0].position;

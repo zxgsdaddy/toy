@@ -34,15 +34,14 @@ var Factory = (function () {
         this.world.addBody(body);
         return body;
     };
-    Factory.prototype.createStoneDD = function (point, type) {
-        if (type === void 0) { type = 'circle'; }
+    Factory.prototype.createStoneDD = function (point) {
         var factor = 1, body = new p2.Body({
             mass: 2,
             position: [point.x / factor, point.y / factor],
+            allowSleep: false
         });
         body.damping = .1;
-        var shape = type === 'circle' ? new p2.Circle({ radius: 0.1 * this.factor }) : new p2.Particle();
-        // let shape = type === 'circle' ? new p2.Circle({ radius: 90 }) : new p2.Particle();
+        var shape = new p2.Circle({ radius: 0.1 * this.factor });
         shape.material = this.stoneM;
         body.addShape(shape);
         body.type = p2.Body.DYNAMIC;
@@ -69,7 +68,7 @@ var Factory = (function () {
         //----------------------------------------------
         var offset = 1;
         var base_point = 500;
-        var _point = [base_point + thickness * Math.sin(_angle), base_point - thickness * Math.cos(_angle)];
+        var _point = [base_point + 250 * Math.sin(_angle), base_point - 250 * Math.cos(_angle)];
         //----------------------------------------------
         //圆环=>梯形
         var out_r = r + thickness, _cal_x = function (r) { return out_r - r * Math.cos(rad); }, _cal_y = function (r) { return r * Math.sin(rad); }, vertices_list = [], out_x = _cal_x(out_r), out_y = _cal_y(out_r), inner_x = _cal_x(r), inner_y = _cal_y(r);
