@@ -79,7 +79,7 @@ var Main = (function (_super) {
         _this.tzds = [];
         _this.pre_stageY = 0;
         _this._i = 0;
-        _this.dis = 20;
+        _this.dis = 15;
         _this.shake = false;
         return _this;
     }
@@ -207,7 +207,7 @@ var Main = (function (_super) {
         this.debugDraw.drawDebug();
         if (this.shake) {
             var base_position = this.tzds[0].position;
-            if ((base_position[1] > 800 && this.dis > 0) || (base_position[1] < 500 && this.dis < 0)) {
+            if ((base_position[1] > 500 && this.dis > 0) || (base_position[1] < 200 && this.dis < 0)) {
                 this.dis *= -1;
             }
             for (var i = 0, len = this.tzds.length; i < len; i++) {

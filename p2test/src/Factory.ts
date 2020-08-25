@@ -7,12 +7,12 @@ class Factory {
 
 	public constructor(world: p2.World) {
 		this.world = world;
-		this.stoneM = new p2.Material(2);
-		this.boxM = new p2.Material(1);
-		this.world.addContactMaterial(new p2.ContactMaterial(this.stoneM, this.boxM, {
-			frictionRelaxation: 0,
-			stiffness: 1e10
-		}));
+		// this.stoneM = new p2.Material(2);
+		// this.boxM = new p2.Material(1);
+		// this.world.addContactMaterial(new p2.ContactMaterial(this.stoneM, this.boxM, {
+		// 	frictionRelaxation: 0,
+		// 	stiffness: 1e10
+		// }));
 	}
 
 	public createStone(point: egret.Point, parent: egret.DisplayObjectContainer, type = 'circle') {
@@ -29,7 +29,7 @@ class Factory {
 		});
 		body.damping = .1;
 		let shape = type === 'circle' ? new p2.Circle({ radius: 0.1 }) : new p2.Particle();
-		shape.material = this.stoneM;
+		// shape.material = this.stoneM;
 		body.addShape(shape);
 		body.displays = [display];
 		body.type = p2.Body.DYNAMIC;
@@ -41,13 +41,13 @@ class Factory {
 	public createStoneDD(point: egret.Point) {
 		let factor = 1,
 			body = new p2.Body({
-				mass: 2,
+				mass: 5,
 				position: [point.x / factor, point.y / factor],
 				allowSleep: false
 			});
-		body.damping = .1;
+		body.damping = 0.02;
 		let shape = new p2.Circle({ radius: 0.1 * this.factor });
-		shape.material = this.stoneM;
+		// shape.material = this.stoneM;
 		body.addShape(shape);
 		body.type = p2.Body.DYNAMIC;
 		this.world.addBody(body);
@@ -70,27 +70,11 @@ class Factory {
 
 	public createTrapezoid(point: egret.Point, rad: number, index: number) {
 		let r = 200,
-			thickness = 200;
-		let _id = (index + 1) * 10;
-		let _angle = index * rad;
-		//----------------------------------------------
+			_id = (index + 1) * 10,
+			_angle = index * rad;
 		let offset = 1;
 		let base_point = 500;
-		let _point = [base_point + 250 * Math.sin(_angle), base_point - 250 * Math.cos(_angle)];
-		//----------------------------------------------
-		//圆环=>梯形
-		let out_r = r + thickness,
-			_cal_x = r => out_r - r * Math.cos(rad),
-			_cal_y = r => r * Math.sin(rad),
-			vertices_list: number[][] = [],
-			out_x = _cal_x(out_r),
-			out_y = _cal_y(out_r),
-			inner_x = _cal_x(r),
-			inner_y = _cal_y(r);
-		vertices_list.push([out_x, -out_y]);
-		vertices_list.push([inner_x, -inner_y]);
-		vertices_list.push([inner_x, inner_y]);
-		vertices_list.push([out_x, out_y]);
+		let _point = [base_point + 240 * Math.sin(_angle), base_point - 240 * Math.cos(_angle)];
 		let body = new p2.Body({
 			mass: 0,
 			fixedRotation: true,
@@ -98,8 +82,11 @@ class Factory {
 			angle: _angle,
 			id: _id
 		});
-		body.fromPolygon(vertices_list);
-		body.shapes[0].material = this.boxM;
+		body.addShape(new p2.Box({
+			width: r,
+			height: r
+		}));
+		// body.damping = 0;
 		body.type = p2.Body.STATIC;
 		this.world.addBody(body);
 		return body;

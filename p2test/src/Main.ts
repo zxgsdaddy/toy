@@ -142,14 +142,14 @@ class Main extends eui.UILayer {
 		this.debugDraw.setSprite(sprite);
 	}
 
-	private dis = 20;
+	private dis = 15;
 	private shake = false;
 	private loop(): void {
 		this.world.step(60 / 1000, 10);
 		this.debugDraw.drawDebug();
 		if (this.shake) {
 			let base_position = this.tzds[0].position;
-			if ((base_position[1] > 800 && this.dis > 0) || (base_position[1] < 500 && this.dis < 0)) {
+			if ((base_position[1] > 500 && this.dis > 0) || (base_position[1] < 200 && this.dis < 0)) {
 				this.dis *= -1;
 			}
 			for (let i = 0, len = this.tzds.length; i < len; i++) {
