@@ -57,14 +57,13 @@ class Factory {
 	public createBBall(point: egret.Point, type = 'circle') {
 		let factor = 1,
 			body = new p2.Body({
-				mass: 2,
+				mass: 0,
 				position: [point.x / factor, point.y / factor],
 			});
-		body.damping = .3;
 		let shape = type === 'circle' ? new p2.Circle({ radius: 90 }) : new p2.Particle();
 		shape.material = this.stoneM;
 		body.addShape(shape);
-		body.type = p2.Body.DYNAMIC;
+		body.type = p2.Body.STATIC;
 		this.world.addBody(body);
 		return body;
 	}
@@ -101,12 +100,12 @@ class Factory {
 		} else {
 			offset = 4;
 		}
-		let point_x = point.x + 80 * (index % 10);
-		let point_y = point.y + 80 * offset;
+		let point_x = point.x + 100 * (index % 16);
+		let point_y = point.y + 200 * offset;
 		let _point = [point_x, point_y];
 		//圆环=>梯形
 		let r = 93,
-			thickness = 50,
+			thickness = 200,
 			out_r = r + thickness,
 			_cal_x = r => out_r - r * Math.cos(rad),
 			_cal_y = r => r * Math.sin(rad),

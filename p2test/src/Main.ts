@@ -112,16 +112,20 @@ class Main extends eui.UILayer {
 
 		let rad = Math.PI / 2 / 8,
 			len = 2 * Math.PI / rad;
-		for (let i = 0; i < len; i += 2) {
-			let body = factory.createTrapezoid(egret.Point.create(200, 200), rad, i);
+		for (let i = 0; i < len; i++) {
+			let body = factory.createTrapezoid(egret.Point.create(500, 200), rad, i);
 			this.tzds.push(body);
 		}
 
-		factory.createBBall(egret.Point.create(300, 300));
+		factory.createBBall(egret.Point.create(300, 500));
 
 		// this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
 		// 	stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
 		// }, this);
+
+		this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
+			this.tzds[this._i].position = [evt.$stageX, evt.$stageY];
+		}, this);
 
 	}
 

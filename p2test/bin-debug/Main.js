@@ -181,13 +181,16 @@ var Main = (function (_super) {
         var factory = new Factory(this.world);
         var stones = [];
         var rad = Math.PI / 2 / 8, len = 2 * Math.PI / rad;
-        for (var i = 0; i < len; i += 2) {
-            var body = factory.createTrapezoid(egret.Point.create(200, 200), rad, i);
+        for (var i = 0; i < len; i++) {
+            var body = factory.createTrapezoid(egret.Point.create(500, 200), rad, i);
             this.tzds.push(body);
         }
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-            // this.tzds[this._i].position = [evt.$stageX, evt.$stageY];
-            stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
+        factory.createBBall(egret.Point.create(300, 500));
+        // this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+        // 	stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
+        // }, this);
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, function (evt) {
+            _this.tzds[_this._i].position = [evt.$stageX, evt.$stageY];
         }, this);
     };
     Main.prototype._cal = function () {
@@ -202,17 +205,17 @@ var Main = (function (_super) {
     Main.prototype.loop = function () {
         this.world.step(1 / 1000, 50);
         this.debugDraw.drawDebug();
-        if (this.shake) {
-            var base_position = this.tzds[0].position;
-            if (base_position[1] > 800 || base_position[1] < 500) {
-                this.dis *= -1;
-            }
-            for (var i = 0, len = this.tzds.length; i < len; i++) {
-                var cur_b = this.tzds[i];
-                var pre_position = cur_b.position;
-                cur_b.position = [pre_position[0], pre_position[1] + this.dis];
-            }
-        }
+        // if (this.shake) {
+        // 	let base_position = this.tzds[0].position;
+        // 	if (base_position[1] > 800 || base_position[1] < 500) {
+        // 		this.dis *= -1;
+        // 	}
+        // 	for (let i = 0, len = this.tzds.length; i < len; i++) {
+        // 		let cur_b = this.tzds[i];
+        // 		let pre_position = cur_b.position;
+        // 		cur_b.position = [pre_position[0], pre_position[1] + this.dis];
+        // 	}
+        // }
     };
     return Main;
 }(eui.UILayer));
