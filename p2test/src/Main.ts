@@ -96,40 +96,65 @@ class Main extends eui.UILayer {
 	private factor = 50;
 	private world: p2.World;
 	private debugDraw: p2DebugDraw;
-
+	private tzds: p2.Body[] = []
 	/**
 	 * 创建游戏场景
 	 */
 	private createGameScene(): void {
-		this.addEventListener(egret.Event.ENTER_FRAME, this.loop, this);
+		this.addEventListener(egret.Event.ENTER_FRAME, () => this.loop(), this);
 		let world: p2.World = new p2.World({ gravity: [0, 0] });
-		world.sleepMode = p2.World.NO_SLEEPING;
+		world.sleepMode = p2.World.BODY_SLEEPING;
 		world.useWorldGravityAsFrictionGravity = true;
 		this.world = world;
 		this.createDebug();
 		let factory = new Factory(this.world);
 		let stones: p2.Body[] = [];
-		// Array(...Array(10)).forEach((_, i) => {
-		// 	stones.push(factory.createStone(world, egret.Point.create(500 + i * 10, 500 + i * 10), this.stage));
-		// });
-		Array(...Array(10)).forEach((_, i) => {
-			stones.push(factory.createStoneDD(egret.Point.create(500 + i * 10, 500 + i * 10)));
-		});
 
-		let cv = factory.drawConvexDD(egret.Point.create(50, 50));
-		this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
-			cv.position = [evt.$stageX, evt.$stageY];
-		}, this);
+		let rad = Math.PI / 2 / 8,
+			len = 2 * Math.PI / rad;
+		for (let i = 0; i < len; i += 2) {
+			let body = factory.createTrapezoid(egret.Point.create(200, 200), rad, i);
+			this.tzds.push(body);
+		}
+
+		factory.createBBall(egret.Point.create(300, 300));
+
+		// this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+		// 	stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
+		// }, this);
+
 	}
 
+
+	public pre_stageY = 0;
+	public _i = 0;
+
+	public _cal() {
+		this.tzds.forEach(body => console.log(body.id, body.position));
+	}
 	private createDebug(): void {
 		this.debugDraw = new p2DebugDraw(this.world);
 		var sprite: egret.Sprite = new egret.Sprite();
 		this.addChild(sprite);
 		this.debugDraw.setSprite(sprite);
 	}
+
+	private dis = 20;
+	private shake = false;
 	private loop(): void {
-		this.world.step(60 / 1000, 999);
+		this.world.step(1 / 1000, 50);
 		this.debugDraw.drawDebug();
+		// if (this.shake) {
+		// 	let base_position = this.tzds[0].position;
+		// 	if (base_position[1] > 800 || base_position[1] < 500) {
+		// 		this.dis *= -1;
+		// 	}
+		// 	for (let i = 0, len = this.tzds.length; i < len; i++) {
+		// 		let cur_b = this.tzds[i];
+		// 		let pre_position = cur_b.position;
+		// 		cur_b.position = [pre_position[0], pre_position[1] + this.dis];
+		// 	}
+		// }
 	}
+
 }

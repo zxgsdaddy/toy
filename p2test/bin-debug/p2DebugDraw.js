@@ -43,7 +43,6 @@ var p2DebugDraw = (function () {
     p2DebugDraw.prototype.drawDebug = function () {
         this.sprite.graphics.clear();
         var l = this.world.bodies.length;
-        egret.log(l);
         for (var i = 0; i < l; i++) {
             var body = this.world.bodies[i];
             for (var j = 0; j < body.shapes.length; j++) {

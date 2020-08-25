@@ -76,6 +76,11 @@ var Main = (function (_super) {
     function Main() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.factor = 50;
+        _this.tzds = [];
+        _this.pre_stageY = 0;
+        _this._i = 0;
+        _this.dis = 20;
+        _this.shake = false;
         return _this;
     }
     Main.prototype.createChildren = function () {
@@ -166,24 +171,27 @@ var Main = (function (_super) {
      * 创建游戏场景
      */
     Main.prototype.createGameScene = function () {
-        this.addEventListener(egret.Event.ENTER_FRAME, this.loop, this);
+        var _this = this;
+        this.addEventListener(egret.Event.ENTER_FRAME, function () { return _this.loop(); }, this);
         var world = new p2.World({ gravity: [0, 0] });
-        world.sleepMode = p2.World.NO_SLEEPING;
+        world.sleepMode = p2.World.BODY_SLEEPING;
         world.useWorldGravityAsFrictionGravity = true;
         this.world = world;
         this.createDebug();
         var factory = new Factory(this.world);
         var stones = [];
-        // Array(...Array(10)).forEach((_, i) => {
-        // 	stones.push(factory.createStone(world, egret.Point.create(500 + i * 10, 500 + i * 10), this.stage));
-        // });
-        Array.apply(void 0, Array(10)).forEach(function (_, i) {
-            stones.push(factory.createStoneDD(egret.Point.create(500 + i * 10, 500 + i * 10)));
-        });
-        var cv = factory.drawConvexDD(egret.Point.create(50, 50));
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, function (evt) {
-            cv.position = [evt.$stageX, evt.$stageY];
+        var rad = Math.PI / 2 / 8, len = 2 * Math.PI / rad;
+        for (var i = 0; i < len; i += 2) {
+            var body = factory.createTrapezoid(egret.Point.create(200, 200), rad, i);
+            this.tzds.push(body);
+        }
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            // this.tzds[this._i].position = [evt.$stageX, evt.$stageY];
+            stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
         }, this);
+    };
+    Main.prototype._cal = function () {
+        this.tzds.forEach(function (body) { return console.log(body.id, body.position); });
     };
     Main.prototype.createDebug = function () {
         this.debugDraw = new p2DebugDraw(this.world);
@@ -192,8 +200,19 @@ var Main = (function (_super) {
         this.debugDraw.setSprite(sprite);
     };
     Main.prototype.loop = function () {
-        this.world.step(60 / 1000, 999);
+        this.world.step(1 / 1000, 50);
         this.debugDraw.drawDebug();
+        if (this.shake) {
+            var base_position = this.tzds[0].position;
+            if (base_position[1] > 800 || base_position[1] < 500) {
+                this.dis *= -1;
+            }
+            for (var i = 0, len = this.tzds.length; i < len; i++) {
+                var cur_b = this.tzds[i];
+                var pre_position = cur_b.position;
+                cur_b.position = [pre_position[0], pre_position[1] + this.dis];
+            }
+        }
     };
     return Main;
 }(eui.UILayer));

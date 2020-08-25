@@ -45,7 +45,6 @@ class p2DebugDraw {
         this.sprite.graphics.clear();
 
         var l: number = this.world.bodies.length;
-        egret.log(l);
         for (var i: number = 0; i < l; i++) {
             var body: p2.Body = this.world.bodies[i];
             for (var j: number = 0; j < body.shapes.length; j++) {
