@@ -16,7 +16,8 @@ class Factory {
 	}
 
 	public createStone(point: egret.Point, parent: egret.DisplayObjectContainer, type = 'circle') {
-		let factor = this.factor,
+		// let factor = this.factor,
+		let factor = 1,
 			display = new eui.Image('ft_pic_stone_png');
 		display.x = point.x;
 		display.y = point.y;
@@ -24,11 +25,13 @@ class Factory {
 		display.anchorOffsetX = display.width / 2;
 		display.anchorOffsetY = display.height / 2;
 		let body = new p2.Body({
-			mass: 2,
+			mass: 10,
 			position: [point.x / factor, point.y / factor],
+			allowSleep: false
 		});
 		body.damping = .1;
-		let shape = type === 'circle' ? new p2.Circle({ radius: 0.1 }) : new p2.Particle();
+		// let shape = type === 'circle' ? new p2.Circle({ radius: 0.1 }) : new p2.Particle();
+		let shape = type === 'circle' ? new p2.Circle({ radius: 6 }) : new p2.Particle();
 		// shape.material = this.stoneM;
 		body.addShape(shape);
 		body.displays = [display];
@@ -68,13 +71,12 @@ class Factory {
 		return body;
 	}
 
-	public createTrapezoid(point: egret.Point, rad: number, index: number) {
+	public createBox(parent: egret.DisplayObjectContainer, point: egret.Point, rad: number, index: number) {
 		let r = 200,
 			_id = (index + 1) * 10,
 			_angle = index * rad;
 		let offset = 1;
-		let base_point = 500;
-		let _point = [base_point + 240 * Math.sin(_angle), base_point - 240 * Math.cos(_angle)];
+		let _point = [(point.x + 190 * Math.sin(_angle)) << 0, (point.y - 190 * Math.cos(_angle)) << 0];
 		let body = new p2.Body({
 			mass: 0,
 			fixedRotation: true,
@@ -89,6 +91,13 @@ class Factory {
 		// body.damping = 0;
 		body.type = p2.Body.STATIC;
 		this.world.addBody(body);
+		if (index === 0) {
+			let display = new eui.Image('ft_pic_glass_cover_png');
+			display.anchorOffsetX = 94;
+			display.anchorOffsetY = -94;
+			body.displays = [display];
+			parent.addChild(display);
+		}
 		return body;
 	}
 

@@ -96,7 +96,8 @@ class Main extends eui.UILayer {
 	private factor = 50;
 	private world: p2.World;
 	private debugDraw: p2DebugDraw;
-	private tzds: p2.Body[] = []
+	private tzds: p2.Body[] = [];
+	private stones: p2.Body[] = [];
 	/**
 	 * 创建游戏场景
 	 */
@@ -108,17 +109,15 @@ class Main extends eui.UILayer {
 		this.world = world;
 		this.createDebug();
 		let factory = new Factory(this.world);
-		let stones: p2.Body[] = [];
-
 		let rad = Math.PI / 2 / 4,
 			len = 2 * Math.PI / rad;
 		for (let i = 0; i < len; i++) {
-			let body = factory.createTrapezoid(egret.Point.create(500, 200), rad, i);
+			let body = factory.createBox(this, egret.Point.create(500, 500), rad, i);
 			this.tzds.push(body);
 		}
 
 		this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
-			stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
+			this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), this));
 		}, this);
 
 		// factory.createBBall(egret.Point.create(300, 500));
@@ -142,22 +141,35 @@ class Main extends eui.UILayer {
 		this.debugDraw.setSprite(sprite);
 	}
 
-	private dis = 15;
+	private dis_y = 8;
+	private dis_x = 1;
 	private shake = false;
 	private loop(): void {
 		this.world.step(60 / 1000, 10);
 		this.debugDraw.drawDebug();
+		let box = this.tzds[0],
+			box_position = box.position;
 		if (this.shake) {
-			let base_position = this.tzds[0].position;
-			if ((base_position[1] > 500 && this.dis > 0) || (base_position[1] < 200 && this.dis < 0)) {
-				this.dis *= -1;
+			if ((box_position[1] > 500 && this.dis_y > 0) || (box_position[1] < 300 && this.dis_y < 0)) {
+				this.dis_y *= -1;
+			}
+			if ((box_position[0] > 700 && this.dis_x > 0) || (box_position[0] < 600 && this.dis_x < 0)) {
+				this.dis_x *= -1;
 			}
 			for (let i = 0, len = this.tzds.length; i < len; i++) {
 				let cur_b = this.tzds[i];
 				let pre_position = cur_b.position;
-				cur_b.position = [pre_position[0], pre_position[1] + this.dis];
+				cur_b.position = [pre_position[0] + this.dis_x, pre_position[1] + this.dis_y];
 			}
 		}
+		let disp: eui.Image = box.displays[0];
+		disp.x = box_position[0];
+		disp.y = box_position[1];
+		this.stones.forEach(s => {
+			let disp = s.displays[0];
+			disp.x = s.position[0];
+			disp.y = s.position[1];
+		})
 	}
 
 }

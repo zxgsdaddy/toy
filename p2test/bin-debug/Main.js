@@ -77,9 +77,11 @@ var Main = (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.factor = 50;
         _this.tzds = [];
+        _this.stones = [];
         _this.pre_stageY = 0;
         _this._i = 0;
-        _this.dis = 15;
+        _this.dis_y = 8;
+        _this.dis_x = 1;
         _this.shake = false;
         return _this;
     }
@@ -179,14 +181,13 @@ var Main = (function (_super) {
         this.world = world;
         this.createDebug();
         var factory = new Factory(this.world);
-        var stones = [];
         var rad = Math.PI / 2 / 4, len = 2 * Math.PI / rad;
         for (var i = 0; i < len; i++) {
-            var body = factory.createTrapezoid(egret.Point.create(500, 200), rad, i);
+            var body = factory.createBox(this, egret.Point.create(500, 500), rad, i);
             this.tzds.push(body);
         }
         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-            stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
+            _this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), _this));
         }, this);
         // factory.createBBall(egret.Point.create(300, 500));
         // this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
@@ -205,17 +206,28 @@ var Main = (function (_super) {
     Main.prototype.loop = function () {
         this.world.step(60 / 1000, 10);
         this.debugDraw.drawDebug();
+        var box = this.tzds[0], box_position = box.position;
         if (this.shake) {
-            var base_position = this.tzds[0].position;
-            if ((base_position[1] > 500 && this.dis > 0) || (base_position[1] < 200 && this.dis < 0)) {
-                this.dis *= -1;
+            if ((box_position[1] > 500 && this.dis_y > 0) || (box_position[1] < 300 && this.dis_y < 0)) {
+                this.dis_y *= -1;
+            }
+            if ((box_position[0] > 700 && this.dis_x > 0) || (box_position[0] < 600 && this.dis_x < 0)) {
+                this.dis_x *= -1;
             }
             for (var i = 0, len = this.tzds.length; i < len; i++) {
                 var cur_b = this.tzds[i];
                 var pre_position = cur_b.position;
-                cur_b.position = [pre_position[0], pre_position[1] + this.dis];
+                cur_b.position = [pre_position[0] + this.dis_x, pre_position[1] + this.dis_y];
             }
         }
+        var disp = box.displays[0];
+        disp.x = box_position[0];
+        disp.y = box_position[1];
+        this.stones.forEach(function (s) {
+            var disp = s.displays[0];
+            disp.x = s.position[0];
+            disp.y = s.position[1];
+        });
     };
     return Main;
 }(eui.UILayer));
