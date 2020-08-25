@@ -44,7 +44,7 @@ class Factory {
 				mass: 2,
 				position: [point.x / factor, point.y / factor],
 			});
-		body.damping = .3;
+		body.damping = .1;
 		let shape = type === 'circle' ? new p2.Circle({ radius: 0.1 * this.factor }) : new p2.Particle();
 		// let shape = type === 'circle' ? new p2.Circle({ radius: 90 }) : new p2.Particle();
 		shape.material = this.stoneM;
@@ -69,16 +69,18 @@ class Factory {
 	}
 
 	public createTrapezoid(point: egret.Point, rad: number, index: number) {
+		let r = 120,
+			thickness = 120;
 		let points = {
-			'10': [94, 500],
-			'20': [101, 460],
-			'30': [112, 420],
-			'40': [134, 383],
-			'50': [157, 352],
-			'60': [187, 329],
-			'70': [221, 311],
-			'80': [264, 297],
-			'90': [298, 294],
+			'10': [94, 501],
+			'20': [98, 458],
+			'30': [109, 421],
+			'40': [129, 385],
+			'50': [154, 354],
+			'60': [184, 329],
+			'70': [220, 311],
+			'80': [259, 299],
+			'90': [299, 294],
 			'100': [345, 300],
 			'110': [378, 309],
 			'120': [419, 332],
@@ -86,15 +88,15 @@ class Factory {
 			'140': [474, 391],
 			'150': [488, 420],
 			'160': [502, 467],
-			'170': [505, 500],
-			'180': [501, 547],
-			'190': [490, 578],
-			'200': [471, 618],
-			'210': [448, 644],
-			'220': [410, 675],
-			'230': [382, 690],
-			'240': [333, 704],
-			'250': [304, 705],
+			'170': [505, 501],
+			'180': [501, 543],
+			'190': [490, 581],
+			'200': [470, 618],
+			'210': [445, 646],
+			'220': [413, 673],
+			'230': [378, 690],
+			'240': [336, 702],
+			'250': [298, 705],
 			'260': [261, 702],
 			'270': [223, 690],
 			'280': [184, 672],
@@ -104,25 +106,33 @@ class Factory {
 			'320': [97, 540]
 		}
 		let _id = (index + 1) * 10;
-		// let _point = points[_id];
+		let _point = points[_id];
 		let _angle = index * rad;
+		//----------------------------------------------
 		let offset = 1;
-		if (_angle >= 0 && _angle <= Math.PI / 2) {
-			offset = 1;
-		} else if (_angle >= Math.PI / 2 && _angle <= Math.PI) {
-			offset = 2;
-		} else if (_angle >= Math.PI && _angle <= Math.PI * 3 / 2) {
-			offset = 3;
-		} else {
-			offset = 4;
-		}
-		let point_x = point.x + 100 * (index % 16);
-		let point_y = point.y + 200 * offset;
-		let _point = [point_x, point_y];
+		let _r = r + thickness / 2;
+		let base_point = 500;
+		_point = [base_point + _r * Math.sin(_angle), base_point - _r * Math.cos(_angle)];
+		// if (_angle >= 0 && _angle <= Math.PI / 2) {
+		// 	offset = 1;
+		// 	_point = [base_point + _r * Math.sin(_angle), base_point - _r * Math.cos(_angle)];
+		// } else if (_angle >= Math.PI / 2 && _angle <= Math.PI) {
+		// 	offset = 2;
+		// 	// egret.log(base_point + _r * Math.sin(_angle), base_point - _r * Math.cos(_angle));
+		// 	_point = [base_point + _r * Math.sin(_angle), base_point - _r * Math.cos(_angle)];
+		// } else if (_angle >= Math.PI && _angle <= Math.PI * 3 / 2) {
+		// 	offset = 3;
+		// 	return;
+		// } else {
+		// 	offset = 4;
+		// 	return;
+		// }
+		// let point_x = point.x + 100 * (index % 16);
+		// let point_y = point.y + 200 * offset;
+		// let _point = [point_x, point_y];
+		//----------------------------------------------
 		//圆环=>梯形
-		let r = 93,
-			thickness = 200,
-			out_r = r + thickness,
+		let out_r = r + thickness,
 			_cal_x = r => out_r - r * Math.cos(rad),
 			_cal_y = r => r * Math.sin(rad),
 			vertices_list: number[][] = [],

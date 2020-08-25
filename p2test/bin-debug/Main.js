@@ -185,13 +185,13 @@ var Main = (function (_super) {
             var body = factory.createTrapezoid(egret.Point.create(500, 200), rad, i);
             this.tzds.push(body);
         }
-        factory.createBBall(egret.Point.create(300, 500));
-        // this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
-        // 	stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
-        // }, this);
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, function (evt) {
-            _this.tzds[_this._i].position = [evt.$stageX, evt.$stageY];
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
         }, this);
+        // factory.createBBall(egret.Point.create(300, 500));
+        // this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
+        // 	this.tzds[this._i].position = [evt.$stageX, evt.$stageY];
+        // }, this);
     };
     Main.prototype._cal = function () {
         this.tzds.forEach(function (body) { return console.log(body.id, body.position); });
@@ -203,19 +203,19 @@ var Main = (function (_super) {
         this.debugDraw.setSprite(sprite);
     };
     Main.prototype.loop = function () {
-        this.world.step(1 / 1000, 50);
+        this.world.step(60 / 1000, 100);
         this.debugDraw.drawDebug();
-        // if (this.shake) {
-        // 	let base_position = this.tzds[0].position;
-        // 	if (base_position[1] > 800 || base_position[1] < 500) {
-        // 		this.dis *= -1;
-        // 	}
-        // 	for (let i = 0, len = this.tzds.length; i < len; i++) {
-        // 		let cur_b = this.tzds[i];
-        // 		let pre_position = cur_b.position;
-        // 		cur_b.position = [pre_position[0], pre_position[1] + this.dis];
-        // 	}
-        // }
+        if (this.shake) {
+            var base_position = this.tzds[0].position;
+            if ((base_position[1] > 800 && this.dis > 0) || (base_position[1] < 500 && this.dis < 0)) {
+                this.dis *= -1;
+            }
+            for (var i = 0, len = this.tzds.length; i < len; i++) {
+                var cur_b = this.tzds[i];
+                var pre_position = cur_b.position;
+                cur_b.position = [pre_position[0], pre_position[1] + this.dis];
+            }
+        }
     };
     return Main;
 }(eui.UILayer));

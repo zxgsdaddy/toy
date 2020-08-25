@@ -117,15 +117,14 @@ class Main extends eui.UILayer {
 			this.tzds.push(body);
 		}
 
-		factory.createBBall(egret.Point.create(300, 500));
-
-		// this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
-		// 	stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
-		// }, this);
-
-		this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
-			this.tzds[this._i].position = [evt.$stageX, evt.$stageY];
+		this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+			stones.push(factory.createStoneDD(egret.Point.create(evt.$stageX, evt.$stageY)));
 		}, this);
+
+		// factory.createBBall(egret.Point.create(300, 500));
+		// this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
+		// 	this.tzds[this._i].position = [evt.$stageX, evt.$stageY];
+		// }, this);
 
 	}
 
@@ -146,19 +145,19 @@ class Main extends eui.UILayer {
 	private dis = 20;
 	private shake = false;
 	private loop(): void {
-		this.world.step(1 / 1000, 50);
+		this.world.step(60 / 1000, 100);
 		this.debugDraw.drawDebug();
-		// if (this.shake) {
-		// 	let base_position = this.tzds[0].position;
-		// 	if (base_position[1] > 800 || base_position[1] < 500) {
-		// 		this.dis *= -1;
-		// 	}
-		// 	for (let i = 0, len = this.tzds.length; i < len; i++) {
-		// 		let cur_b = this.tzds[i];
-		// 		let pre_position = cur_b.position;
-		// 		cur_b.position = [pre_position[0], pre_position[1] + this.dis];
-		// 	}
-		// }
+		if (this.shake) {
+			let base_position = this.tzds[0].position;
+			if ((base_position[1] > 800 && this.dis > 0) || (base_position[1] < 500 && this.dis < 0)) {
+				this.dis *= -1;
+			}
+			for (let i = 0, len = this.tzds.length; i < len; i++) {
+				let cur_b = this.tzds[i];
+				let pre_position = cur_b.position;
+				cur_b.position = [pre_position[0], pre_position[1] + this.dis];
+			}
+		}
 	}
 
 }
