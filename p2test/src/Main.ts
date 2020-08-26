@@ -116,10 +116,19 @@ class Main extends eui.UILayer {
 			this.tzds.push(body);
 		}
 
+		// this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+		// 	Array(...Array(10)).forEach((_, i) => {
+		// 		this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), this));
+		// 	});
+		// }, this);
 		this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
 			Array(...Array(10)).forEach((_, i) => {
 				this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), this));
 			});
+			Array(...Array(2)).forEach((_, i) => {
+				this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), this, 'p'));
+			});
+			this.addChild(this.tzds[0].displays[0]);
 		}, this);
 
 		// factory.createBBall(egret.Point.create(300, 500));
@@ -143,15 +152,16 @@ class Main extends eui.UILayer {
 		this.debugDraw.setSprite(sprite);
 	}
 
-	private dis_y = 6 / this.factor;
-	private dis_x = 1 / this.factor;
+	private dis_y = 1 / this.factor;
+	private dis_x = 10 / this.factor;
 	private shake = false;
 	private loop(): void {
-		this.world.step(60 / 1000, 10);
+		this.world.step(1 / 60, 1);
 		// this.debugDraw.drawDebug();
 		let box = this.tzds[0],
 			box_position = box.position;
 		if (this.shake) {
+			egret.setTimeout(() => this.shake = false, this, 3000);
 			if ((box_position[1] > 500 / this.factor && this.dis_y > 0) || (box_position[1] < 300 / this.factor && this.dis_y < 0)) {
 				this.dis_y *= -1;
 			}

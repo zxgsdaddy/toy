@@ -23,13 +23,12 @@ var Factory = (function () {
         display.anchorOffsetX = display.width / 2;
         display.anchorOffsetY = display.height / 2;
         var body = new p2.Body({
-            mass: 10,
+            mass: 1,
             position: [point.x / factor, point.y / factor],
             allowSleep: false
         });
-        body.damping = .1;
+        body.damping = .31;
         var shape = type === 'circle' ? new p2.Circle({ radius: 0.1 }) : new p2.Particle();
-        // let shape = type === 'circle' ? new p2.Circle({ radius: 6 }) : new p2.Particle();
         // shape.material = this.stoneM;
         body.addShape(shape);
         body.displays = [display];
@@ -68,7 +67,7 @@ var Factory = (function () {
     Factory.prototype.createBox = function (parent, point, rad, index) {
         var r = 200 / this.factor, _id = (index + 1) * 10, _angle = index * rad;
         var offset = 1;
-        var _point = [(point.x + 185 * Math.sin(_angle)) / this.factor, (point.y - 185 * Math.cos(_angle)) / this.factor];
+        var _point = [(point.x + 180 * Math.sin(_angle)) / this.factor, (point.y - 180 * Math.cos(_angle)) / this.factor];
         var body = new p2.Body({
             mass: 0,
             fixedRotation: true,
@@ -86,7 +85,7 @@ var Factory = (function () {
         if (index === 0) {
             var display = new eui.Image('ft_pic_glass_cover_png');
             display.anchorOffsetX = 94;
-            display.anchorOffsetY = -94;
+            display.anchorOffsetY = -87;
             body.displays = [display];
             parent.addChild(display);
         }

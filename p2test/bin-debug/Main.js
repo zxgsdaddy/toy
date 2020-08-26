@@ -80,8 +80,8 @@ var Main = (function (_super) {
         _this.stones = [];
         _this.pre_stageY = 0;
         _this._i = 0;
-        _this.dis_y = 6 / _this.factor;
-        _this.dis_x = 1 / _this.factor;
+        _this.dis_y = 1 / _this.factor;
+        _this.dis_x = 10 / _this.factor;
         _this.shake = false;
         return _this;
     }
@@ -186,10 +186,19 @@ var Main = (function (_super) {
             var body = factory.createBox(this, egret.Point.create(500, 500), rad, i);
             this.tzds.push(body);
         }
+        // this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+        // 	Array(...Array(10)).forEach((_, i) => {
+        // 		this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), this));
+        // 	});
+        // }, this);
         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
             Array.apply(void 0, Array(10)).forEach(function (_, i) {
                 _this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), _this));
             });
+            Array.apply(void 0, Array(2)).forEach(function (_, i) {
+                _this.stones.push(factory.createStone(egret.Point.create(evt.$stageX, evt.$stageY), _this, 'p'));
+            });
+            _this.addChild(_this.tzds[0].displays[0]);
         }, this);
         // factory.createBBall(egret.Point.create(300, 500));
         // this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, (evt: egret.TouchEvent) => {
@@ -207,10 +216,11 @@ var Main = (function (_super) {
     };
     Main.prototype.loop = function () {
         var _this = this;
-        this.world.step(60 / 1000, 10);
+        this.world.step(1 / 60, 1);
         // this.debugDraw.drawDebug();
         var box = this.tzds[0], box_position = box.position;
         if (this.shake) {
+            egret.setTimeout(function () { return _this.shake = false; }, this, 3000);
             if ((box_position[1] > 500 / this.factor && this.dis_y > 0) || (box_position[1] < 300 / this.factor && this.dis_y < 0)) {
                 this.dis_y *= -1;
             }
